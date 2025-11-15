@@ -523,18 +523,6 @@ npm start
 4. **URL State Management:** Query parameters provide shareable, bookmarkable state
 5. **ISR Benefits:** Combines benefits of SSG (speed) with SSR (fresh data)
 
-### Known Issues
-- Category filter fetches all products (limit 1000) - could be optimized with separate categories content type
-- No search functionality yet
-- No server-side sorting options
-
-### Credits
-- **Framework:** Next.js by Vercel
-- **CMS:** Contentful
-- **Developer:** Lucas Delvoie
-- **Course:** INFT 3102 - Web Development Frameworks
-- **Institution:** Durham College
-
 ---
 
 ## License
@@ -543,7 +531,6 @@ This project is for educational purposes as part of INFT 3102 Assignment 2.
 ---
 
 ## Support
-For issues or questions, please contact the development team or refer to:
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Contentful Documentation](https://www.contentful.com/developers/docs/)
 - [React Context API](https://react.dev/reference/react/useContext)
