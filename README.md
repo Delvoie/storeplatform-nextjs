@@ -78,84 +78,6 @@ GET /entries?content_type=products&limit={limit}&skip={skip}
 const url = `https://cdn.contentful.com/spaces/${spaceId}/environments/${envId}/entries?access_token=${accessToken}&content_type=products&limit=10&skip=0&fields.category=electronics`;
 ```
 
-**Response Structure:**
-```json
-{
-  "items": [
-    {
-      "sys": {
-        "id": "alphanumeric-id"
-      },
-      "fields": {
-        "title": "Product Name",
-        "description": "Product description",
-        "brandName": "Brand",
-        "price": 99.99,
-        "category": "electronics",
-        "image": [
-          { "sys": { "id": "asset-id-1" } },
-          { "sys": { "id": "asset-id-2" } }
-        ]
-      }
-    }
-  ],
-  "includes": {
-    "Asset": [
-      {
-        "sys": { "id": "asset-id-1" },
-        "fields": {
-          "file": {
-            "url": "//images.ctfassets.net/..."
-          }
-        }
-      }
-    ]
-  },
-  "total": 50
-}
-```
-
-#### 2. Fetch Single Product by ID
-```
-GET /entries/{sys.id}?access_token={token}
-```
-
-**Example:**
-```javascript
-const url = `https://cdn.contentful.com/spaces/${spaceId}/environments/${envId}/entries/${productId}?access_token=${accessToken}`;
-```
-
-#### 3. Fetch Asset (Image)
-```
-GET /assets/{assetId}?access_token={token}
-```
-
-**Example:**
-```javascript
-const assetUrl = `https://cdn.contentful.com/spaces/${spaceId}/environments/${envId}/assets/${imageId}?access_token=${accessToken}`;
-```
-
-**Asset Response:**
-```json
-{
-  "sys": { "id": "asset-id" },
-  "fields": {
-    "title": "Image Title",
-    "file": {
-      "url": "//images.ctfassets.net/awoqukumntwz/...",
-      "contentType": "image/png",
-      "details": {
-        "size": 123456,
-        "image": {
-          "width": 1920,
-          "height": 1080
-        }
-      }
-    }
-  }
-}
-```
-
 ## Migration Challenges
 
 ### 1. React to Next.js Migration
@@ -263,29 +185,8 @@ if (item.fields.image) {
     }
   }
 }
+
 ```
-#### Challenge: Image Optimization
-**Problem:** Need to display images from external domain (images.ctfassets.net)
-
-**Solution:**
-- Configured `next.config.mjs` with `remotePatterns` for Contentful CDN
-- Used Next.js `<Image>` component for lazy loading and optimization
-- Prepended `https:` to protocol-relative URLs (`//images.ctfassets.net/...`)
-
-```javascript
-// next.config.mjs
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.ctfassets.net',
-      },
-    ],
-  },
-};
-```
-
 ### 4. Additional Challenges
 
 #### Challenge: Environment Variables
