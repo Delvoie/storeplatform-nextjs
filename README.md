@@ -16,14 +16,6 @@
 
 **Store Platform** is a modern e-commerce web application built with Next.js 16 and powered by Contentful headless CMS. This project demonstrates the migration from a client-side rendered React application to a server-side rendered Next.js application with static site generation (SSG) and incremental static regeneration (ISR).
 
-### Technology Stack
-- **Framework:** Next.js 16.0.3 (Pages Router)
-- **React:** 19.2.0
-- **CMS:** Contentful (Content Delivery API)
-- **Language:** JavaScript (ES6+)
-- **Styling:** CSS3 (Responsive, Mobile-First)
-- **State Management:** React Context API
-
 ---
 
 ## Architecture & Implementation
@@ -53,26 +45,8 @@ components/
 ├── ProductList.js       # Product grid with pagination
 ├── ProductDetail.js     # Product detail display with image gallery
 └── ProductFilter.js     # Dynamic category filter dropdown
+
 ```
-
-### Data Flow
-
-1. **Server-Side Rendering (SSR)** - Product listing page (`/products`)
-   - Uses `getServerSideProps` for real-time data fetching
-   - Supports pagination and category filtering
-   - Query parameters: `?page=1&category=electronics`
-
-2. **Static Site Generation (SSG)** - Product detail pages (`/products/[id]`)
-   - Uses `getStaticProps` + `getStaticPaths` for pre-rendering
-   - Implements ISR with 60-second revalidation
-   - Fallback: 'blocking' for on-demand generation
-
-3. **Global State Management**
-   - ProductContext provides product state across components
-   - Updates on page navigation and route changes
-   - Prevents unnecessary re-fetching
-
----
 
 ## API Documentation
 
@@ -290,16 +264,7 @@ if (item.fields.image) {
   }
 }
 ```
-
-#### Challenge: Asset References vs. Direct URLs
-**Problem:** Contentful doesn't return image URLs directly - returns asset references that must be resolved
-
-**Solution:**
-- Used `includes.Asset` array from API response for product listing
-- Made separate asset API calls for product detail pages
-- Extracted `url` from nested `fields.file.url` structure
-
-#### Challenge: Image Optimization & Security
+#### Challenge: Image Optimization
 **Problem:** Need to display images from external domain (images.ctfassets.net)
 
 **Solution:**
@@ -319,29 +284,6 @@ const nextConfig = {
     ],
   },
 };
-```
-
-#### Challenge: Multiple Images UI/UX
-**Problem:** How to display multiple product images effectively
-
-**Solution:** Implemented image gallery with thumbnails
-- Main image display (600x400)
-- Clickable thumbnail navigation below
-- State management for selected image index
-- Visual feedback (blue border on selected thumbnail)
-
-```javascript
-const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
-// Main image
-<Image src={`https:${images[selectedImageIndex]}`} />
-
-// Thumbnails
-{images.map((img, index) => (
-  <button onClick={() => setSelectedImageIndex(index)}>
-    <Image src={`https:${img}`} width={60} height={60} />
-  </button>
-))}
 ```
 
 ### 4. Additional Challenges
@@ -497,23 +439,6 @@ npm start
 5. **Pagination:** Limits data fetching to 10 products per request
 6. **Asset Includes:** Images fetched in single request with `includes.Asset`
 
----
-
-## Future Enhancements
-
-- [ ] Add shopping cart functionality
-- [ ] Implement search feature
-- [ ] Add product reviews/ratings
-- [ ] Implement user authentication
-- [ ] Add wishlist functionality
-- [ ] Set up Contentful webhooks for ISR
-- [ ] Add loading skeletons
-- [ ] Implement product comparison
-- [ ] Add sorting options (price, name, date)
-- [ ] Set up analytics tracking
-
----
-
 ## Development Notes
 
 ### Lessons Learned
@@ -522,15 +447,3 @@ npm start
 3. **Dynamic Image Handling:** Must account for both single and multiple image scenarios
 4. **URL State Management:** Query parameters provide shareable, bookmarkable state
 5. **ISR Benefits:** Combines benefits of SSG (speed) with SSR (fresh data)
-
----
-
-## License
-This project is for educational purposes as part of INFT 3102 Assignment 2.
-
----
-
-## Support
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Contentful Documentation](https://www.contentful.com/developers/docs/)
-- [React Context API](https://react.dev/reference/react/useContext)
